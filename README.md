@@ -1,6 +1,6 @@
-# Ansible Role: prometheus-node-exporter
+# Ansible Role: prometheus-pushgateway
 
-An Ansible role that installs Prometheus Node Exporter on Ubuntu-based machines with systemd.
+An Ansible role that installs Prometheus Pushgateway on Ubuntu-based machines with systemd.
 
 ## Requirements
 
@@ -10,26 +10,9 @@ All needed packages will be installed with this role.
 
 Available variables are listed below, along with default values:
 ```yaml
-prometheus_node_exporter_version: 0.12.0
+prometheus_pushgateway_version: 0.14.0
 
-prometheus_node_exporter_enabled_collectors:
-  - conntrack
-  - cpu
-  - diskstats
-  - entropy
-  - filefd
-  - filesystem
-  - loadavg
-  - mdadm
-  - meminfo
-  - netdev
-  - netstat
-  - stat
-  - textfile
-  - time
-  - vmstat
-
-prometheus_node_exporter_config_flags:
+prometheus-pushgateway_config_flags:
   'web.listen-address': '0.0.0.0:9100'
   'log.level': 'info'
 ```
@@ -39,16 +22,13 @@ prometheus_node_exporter_config_flags:
 
 ## Example Playbook
 ```yaml
-- hosts: node-exporters
+- hosts: node-pushgateway
   roles:
-    - UnderGreen.prometheus-node-exporter
-  vars:
-    prometheus_node_exporter_enabled_collectors:
-      - diskstats
-      - filesystem
-      - loadavg
-      - systemd
+    - stephanfuchs.prometheus-pushgateway
 ```
+## References
+- https://github.com/UnderGreen/ansible-prometheus-node-exporter
+
 ## License
 
 GPLv2
