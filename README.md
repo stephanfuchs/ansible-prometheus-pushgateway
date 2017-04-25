@@ -13,7 +13,7 @@ Available variables are listed below, along with default values:
 prometheus_pushgateway_version: 0.14.0
 
 prometheus-pushgateway_config_flags:
-  'web.listen-address': '0.0.0.0:9100'
+  'web.listen-address': '0.0.0.0:9091'
   'log.level': 'info'
 ```
 ## Dependencies
