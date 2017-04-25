@@ -13,7 +13,7 @@ Available variables are listed below, along with default values:
 prometheus_pushgateway_version: 0.3.1
 prometheus_pushgateway_architecture: "amd64"
 
-prometheus-pushgateway_config_flags:
+prometheus_pushgateway_config_flags:
   'web.listen-address': '0.0.0.0:9091'
   'log.level': 'info'
 ```
