@@ -11,6 +11,7 @@ All needed packages will be installed with this role.
 Available variables are listed below, along with default values:
 ```yaml
 prometheus_pushgateway_version: 0.3.1
+prometheus_pushgateway_architecture: "amd64"
 
 prometheus-pushgateway_config_flags:
   'web.listen-address': '0.0.0.0:9091'
@@ -22,7 +23,7 @@ prometheus-pushgateway_config_flags:
 
 ## Example Playbook
 ```yaml
-- hosts: node-pushgateway
+- hosts: pushgateway
   roles:
     - stephanfuchs.prometheus-pushgateway
 ```

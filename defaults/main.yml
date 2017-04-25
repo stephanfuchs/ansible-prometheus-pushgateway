@@ -1,25 +1,9 @@
 ---
 
-prometheus_node_exporter_version: 0.3.1
-prometheus_node_exporter_release_name: "node_exporter-{{ prometheus_node_exporter_version }}.linux-amd64"
+prometheus_pushgateway_version: 0.3.1
+prometheus_pushgateway_architecture: "amd64"
+prometheus_pushgateway_release_name: "pushgateway-{{ prometheus_pushgateway_version }}.linux-{{ prometheus_pushgateway_architecture }}"
 
-# https://github.com/prometheus/node_exporter#enabled-by-default
-prometheus_node_exporter_enabled_collectors:
-  - conntrack
-  - diskstats
-  - entropy
-  - filefd
-  - filesystem
-  - loadavg
-  - mdadm
-  - meminfo
-  - netdev
-  - netstat
-  - stat
-  - textfile
-  - time
-  - vmstat
-
-prometheus_node_exporter_config_flags:
+prometheus_pushgateway_config_flags:
   'web.listen-address': '0.0.0.0:9091'
   'log.level': 'info'

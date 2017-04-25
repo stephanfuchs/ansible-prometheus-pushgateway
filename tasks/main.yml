@@ -1,63 +1,63 @@
 ---
 
-- name: download prometheus node exporter binary
+- name: download prometheus pushgateway binary
   get_url:
-    url: "https://github.com/prometheus/node_exporter/releases/download/v{{ prometheus_node_exporter_version }}/{{ prometheus_node_exporter_release_name }}.tar.gz"
+    url: "https://github.com/prometheus/pushgateway/releases/download/v{{ prometheus_pushgateway_version }}/{{ prometheus_pushgateway_release_name }}.tar.gz"
     dest: "{{ prometheus_exporters_common_dist_dir }}"
 
 - name: unarchive binary tarball
   unarchive:
     copy: no
-    src: "{{ prometheus_exporters_common_dist_dir }}/{{ prometheus_node_exporter_release_name }}.tar.gz"
+    src: "{{ prometheus_exporters_common_dist_dir }}/{{ prometheus_pushgateway_release_name }}.tar.gz"
     dest: "{{ prometheus_exporters_common_dist_dir }}"
-    creates: "{{ prometheus_exporters_common_dist_dir }}/{{ prometheus_node_exporter_release_name }}/node_exporter"
-  register: prometheus_node_exporter_updated
+    creates: "{{ prometheus_exporters_common_dist_dir }}/{{ prometheus_pushgateway_release_name }}/pushgateway"
+  register: prometheus_pushgateway_updated
   notify:
-    - restart node exporter
+    - restart pushgateway
 
 - name: update group and owner for files
   file:
-    path: "{{ prometheus_node_exporter_release_name }}"
+    path: "{{ prometheus_pushgateway_release_name }}"
     state: directory
     recurse: yes
-    owner: "{{ prometheus_exporters_common_user}}"
+    owner: "{{ prometheus_exporters_common_user }}"
     group: "{{ prometheus_exporters_common_group }}"
-  when: prometheus_node_exporter_updated | changed
+  when: prometheus_pushgateway_updated | changed
 
 - name: create symlink to the current release
   file:
-    src: "{{ prometheus_exporters_common_dist_dir }}/{{ prometheus_node_exporter_release_name }}"
-    path: "{{ prometheus_exporters_common_root_dir }}/node_exporter_current"
+    src: "{{ prometheus_exporters_common_dist_dir }}/{{ prometheus_pushgateway_release_name }}"
+    path: "{{ prometheus_exporters_common_root_dir }}/pushgateway_current"
     state: link
 
 - name: create systemd service unit
   template:
-    src: etc/systemd/system/prometheus-node-exporter.service.j2
-    dest: /etc/systemd/system/prometheus-node-exporter.service
+    src: etc/systemd/system/prometheus-pushgateway.service.j2
+    dest: /etc/systemd/system/prometheus-pushgateway.service
     owner: root
     group: root
     mode: 0644
   when: ansible_service_mgr == 'systemd'
   notify:
     - service reenable
-    - restart node exporter
+    - restart pushgateway
 
 - name: create init service unit
   template:
-    src: etc/init/prometheus-node-exporter.conf.j2
-    dest: /etc/init/prometheus-node-exporter.conf
+    src: etc/init/prometheus-pushgateway.conf.j2
+    dest: /etc/init/prometheus-pushgateway.conf
     owner: root
     group: root
     mode: 0644
   when: ansible_service_mgr == 'upstart'
   notify:
-    - reinit node exporter
-    - restart node exporter
+    - reinit pushgateway
+    - restart pushgateway
 
 - meta: flush_handlers
 
-- name: ensure prometheus node exporter service is enabled and started
+- name: ensure prometheus pushgateway service is enabled and started
   service:
-    name: prometheus-node-exporter
+    name: prometheus-pushgateway
     state: started
     enabled: yes

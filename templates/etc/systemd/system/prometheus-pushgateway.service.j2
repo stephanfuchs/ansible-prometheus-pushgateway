@@ -1,0 +1,15 @@
+[Unit]
+Description=Prometheus Pushgateway
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Group={{ prometheus_exporters_common_group }}
+ExecStart={{ prometheus_exporters_common_root_dir }}/pushgateway_current/pushgateway {% for flag, flag_value in prometheus_pushgateway_config_flags.iteritems() %}-{{ flag }}={{ flag_value }} {% endfor %}
+
+SyslogIdentifier=prometheus_pushgateway
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

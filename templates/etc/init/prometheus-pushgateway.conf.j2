@@ -1,0 +1,14 @@
+description "Prometheus Pushgateway"
+start on (local-filesystems and net-device-up IFACE!=lo)
+stop on runlevel [016]
+
+respawn
+setuid root
+setgid {{ prometheus_exporters_common_group }}
+
+script
+  exec >> "{{ prometheus_exporters_common_log_dir }}/pushgateway.log"
+  exec 2>&1
+  exec {{ prometheus_exporters_common_root_dir }}/pushgateway_current/pushgateway {% for flag, flag_value in prometheus_pushgateway_config_flags.iteritems() %}-{{ flag }}={{ flag_value }} {% endfor %}
+
+end script

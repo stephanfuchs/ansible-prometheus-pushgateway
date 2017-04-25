@@ -1,12 +1,12 @@
 ---
 
 - name: service reenable
-  command: systemctl reenable prometheus-node-exporter.service
+  command: systemctl reenable prometheus-pushgateway.service
 
-- name: reinit node exporter
+- name: reinit pushgateway
   command: initctl reload-configuration
 
-- name: restart node exporter
+- name: restart pushgateway
   service:
-    name: prometheus-node-exporter
+    name: prometheus-pushgateway
     state: restarted
