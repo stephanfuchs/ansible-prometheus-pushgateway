@@ -7,9 +7,7 @@
 - name: download prometheus pushgateway binary
   get_url:
     url: "https://github.com/prometheus/pushgateway/releases/download/v{{ prometheus_pushgateway_version }}/{{ pushgateway_filename }}"
-    dest: "{{ prometheus_exporters_common_dist_dir }}"
-  args:
-    creates: "{{ pushgateway_filename }}"
+    dest: "{{ pushgateway_filename }}"
 
 - name: unarchive binary tarball
   unarchive:
